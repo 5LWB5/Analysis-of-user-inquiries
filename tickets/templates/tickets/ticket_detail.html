@@ -1,0 +1,20 @@
+{% extends 'tickets/base.html' %}
+{% block title %}{{ ticket.subject }} — Служба обращений{% endblock %}
+{% block content %}
+<p><a class="clear-link" href="{% url 'ticket_list' %}">← К списку обращений</a></p>
+<article class="panel detail-panel">
+    <p class="eyebrow">ОБРАЩЕНИЕ №{{ ticket.pk }}</p>
+    <h1>{{ ticket.subject }}</h1>
+    <div class="detail-meta"><span class="status status-{{ ticket.status }}">{{ ticket.get_status_display }}</span><span class="tag">{{ ticket.get_category_display }}</span><span class="muted">{{ ticket.created_at|date:'d.m.Y H:i' }}</span></div>
+    <hr>
+    <h2>Описание</h2>
+    <p class="description">{{ ticket.description|linebreaksbr }}</p>
+    <hr>
+    <h2>Изменить категорию или статус</h2>
+    <form method="post" action="{% url 'ticket_update' ticket.pk %}" class="ticket-form">
+        {% csrf_token %}
+        {% for field in form %}<div class="form-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.errors %}<div class="errors">{{ field.errors }}</div>{% endif %}</div>{% endfor %}
+        <div class="form-actions"><button class="button" type="submit">Сохранить изменения</button></div>
+    </form>
+</article>
+{% endblock %}

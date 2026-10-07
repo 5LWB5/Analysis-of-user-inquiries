@@ -1,0 +1,39 @@
+{% extends 'tickets/base.html' %}
+{% block title %}Обращения — Служба обращений{% endblock %}
+{% block content %}
+<section class="intro">
+    <div><p class="eyebrow">РАБОЧЕЕ ПРОСТРАНСТВО</p><h1>Обращения пользователей</h1><p class="muted">Поиск, категории и текущий статус запросов.</p></div>
+    <div class="total-card"><span class="muted">Всего обращений</span><strong>{{ total_count }}</strong></div>
+</section>
+
+<section class="panel">
+    <form method="get" class="filters">
+        <input type="search" name="q" value="{{ query }}" placeholder="Поиск по теме и описанию">
+        <select name="category"><option value="">Все категории</option>{% for value, label in categories %}<option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+        <select name="status"><option value="">Все статусы</option>{% for value, label in statuses %}<option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+        <button class="button" type="submit">Найти</button>
+        <a class="clear-link" href="{% url 'ticket_list' %}">Сбросить</a>
+    </form>
+</section>
+
+<div class="content-grid">
+    <section class="panel list-panel">
+        <h2>Список обращений</h2>
+        {% if tickets %}
+        <div class="ticket-list">
+            {% for ticket in tickets %}
+            <a class="ticket-row" href="{% url 'ticket_detail' ticket.pk %}">
+                <div class="ticket-main"><strong>{{ ticket.subject }}</strong><span class="muted">{{ ticket.created_at|date:'d.m.Y H:i' }} · {{ ticket.get_category_display }}</span></div>
+                <span class="status status-{{ ticket.status }}">{{ ticket.get_status_display }}</span>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}<p class="empty">Обращений не найдено. Попробуйте изменить фильтры или добавьте новое.</p>{% endif %}
+    </section>
+    <aside class="panel stats-panel">
+        <h2>По категориям</h2>
+        {% if category_stats %}<ul class="stat-list">{% for item in category_stats %}<li><span>{{ item.label }}</span><strong>{{ item.total }}</strong></li>{% endfor %}</ul>{% else %}<p class="muted">Пока нет данных для статистики.</p>{% endif %}
+        <p class="hint">Сводка учитывает все обращения, даже если в списке включены фильтры.</p>
+    </aside>
+</div>
+{% endblock %}

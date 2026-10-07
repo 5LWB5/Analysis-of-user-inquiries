@@ -1,0 +1,8 @@
+[
+  {"model": "tickets.ticket", "pk": 1, "fields": {"subject": "Не проходит оплата", "description": "При попытке оплатить заказ появляется сообщение об ошибке.", "category": "payment", "status": "new", "created_at": "2026-10-01T10:00:00+03:00"}},
+  {"model": "tickets.ticket", "pk": 2, "fields": {"subject": "Не пришёл заказ", "description": "Срок доставки прошёл, но заказ ещё не получен.", "category": "delivery", "status": "in_progress", "created_at": "2026-10-02T11:30:00+03:00"}},
+  {"model": "tickets.ticket", "pk": 3, "fields": {"subject": "Не могу войти в аккаунт", "description": "После ввода пароля сайт возвращает на страницу входа.", "category": "technical", "status": "new", "created_at": "2026-10-04T09:15:00+03:00"}},
+  {"model": "tickets.ticket", "pk": 4, "fields": {"subject": "С карты списали деньги дважды", "description": "В истории карты отображаются два списания за один заказ.", "category": "payment", "status": "resolved", "created_at": "2026-10-05T14:20:00+03:00"}},
+  {"model": "tickets.ticket", "pk": 5, "fields": {"subject": "Курьер не приехал", "description": "В приложении была указана доставка сегодня, но курьер не связался.", "category": "delivery", "status": "resolved", "created_at": "2026-10-07T16:45:00+03:00"}},
+  {"model": "tickets.ticket", "pk": 6, "fields": {"subject": "Не открывается приложение", "description": "Приложение закрывается сразу после запуска.", "category": "technical", "status": "in_progress", "created_at": "2026-10-08T08:05:00+03:00"}}
+]

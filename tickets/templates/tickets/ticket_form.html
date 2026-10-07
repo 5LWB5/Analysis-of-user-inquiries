@@ -1,0 +1,12 @@
+{% extends 'tickets/base.html' %}
+{% block title %}Новое обращение — Служба обращений{% endblock %}
+{% block content %}
+<section class="page-heading"><p class="eyebrow">НОВАЯ ЗАПИСЬ</p><h1>Добавить обращение</h1><p class="muted">Заполните тему, описание и категорию.</p></section>
+<section class="panel form-panel">
+    <form method="post" class="ticket-form">
+        {% csrf_token %}
+        {% for field in form %}<div class="form-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.errors %}<div class="errors">{{ field.errors }}</div>{% endif %}</div>{% endfor %}
+        <div class="form-actions"><button class="button" type="submit">Сохранить обращение</button><a class="clear-link" href="{% url 'ticket_list' %}">Отмена</a></div>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'tickets/base.html' %}
+{% block title %}Аналитика — Служба обращений{% endblock %}
+{% block content %}
+<section class="intro">
+    <div><p class="eyebrow">ОТЧЁТ</p><h1>Аналитика обращений</h1><p class="muted">Распределение обращений по категориям и статусам.</p></div>
+    <div class="export-actions">
+        <a class="button button-light" href="{% url 'export_report' %}?date_from={{ date_from }}&amp;date_to={{ date_to }}">Скачать отчёт</a>
+        <a class="button" href="{% url 'export_csv' %}?date_from={{ date_from }}&amp;date_to={{ date_to }}">Скачать CSV</a>
+    </div>
+</section>
+<section class="panel period-panel">
+    <form method="get" class="period-form">
+        <label>С даты <input type="date" name="date_from" value="{{ date_from }}"></label>
+        <label>По дату <input type="date" name="date_to" value="{{ date_to }}"></label>
+        <button class="button" type="submit">Показать период</button>
+        <a class="clear-link" href="{% url 'analytics' %}">Сбросить</a>
+    </form>
+</section>
+{% if period_error %}<p class="period-error">Начальная дата позже конечной. Укажите сначала более раннюю дату.</p>{% endif %}
+<section class="metric-grid">
+    <div class="panel metric-card"><span class="muted">Всего обращений</span><strong>{{ total_count }}</strong></div>
+    <div class="panel metric-card"><span class="muted">Решено</span><strong>{{ resolved_count }}</strong></div>
+    <div class="panel metric-card"><span class="muted">Частая категория</span><strong class="metric-text">{% if top_category %}{{ top_category.label }}{% else %}Нет данных{% endif %}</strong></div>
+</section>
+<div class="content-grid analytics-grid">
+    <section class="panel">
+        <h2>Обращения по категориям</h2>
+        {% if category_stats %}<div class="chart-list">{% for item in category_stats %}<div class="chart-row"><div class="chart-label"><span>{{ item.label }}</span><strong>{{ item.total }}</strong></div><div class="bar-track"><div class="bar-fill" style="width: {{ item.width }}%"></div></div></div>{% endfor %}</div>{% else %}<p class="muted">Пока нет обращений для анализа.</p>{% endif %}
+    </section>
+    <section class="panel">
+        <h2>По статусам</h2>
+        {% if status_stats %}<ul class="stat-list">{% for item in status_stats %}<li><span>{{ item.label }}</span><strong>{{ item.total }}</strong></li>{% endfor %}</ul>{% else %}<p class="muted">Пока нет данных.</p>{% endif %}
+    </section>
+</div>
+<p class="report-note">Статистика и CSV учитывают выбранный период. Если даты не указаны, отображаются все обращения.</p>
+{% endblock %}
